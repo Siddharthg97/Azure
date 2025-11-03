@@ -1,3 +1,4 @@
+**containers in cosmos db**
 Excellent question — understanding containers in Azure (especially in Cosmos DB and Blob Storage) is critical for designing good cloud data architecture.
 
 Let’s unpack both meanings, since “container” can refer to different things depending on the Azure service you’re working with
