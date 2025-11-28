@@ -146,6 +146,177 @@ Type	Description	Example Use
 🔍 Vector Indexing	For semantic similarity search	“Find documents similar to this one”
 
 **Azure AI search**
+
+Azure AI Search (formerly Azure Cognitive Search) performs three major types of search, depending on how the index is configured:
+
+⭐ 1. Full-Text Search (FTS)
+
+This is the primary type of search Azure AI Search is known for.
+
+✔ What it does:
+
+Searches unstructured text using inverted indexes
+
+Performs tokenization, stemming, normalization
+
+Finds documents where words or phrases match the query
+
+Supports:
+
+fuzzy search
+
+wildcard search
+
+proximity search
+
+synonyms
+
+scoring profiles
+
+✔ Example
+
+Search for:
+
+"manager responsibilities in hr"
+
+
+Azure AI Search will:
+
+tokenize → "manager", "responsibility", "hr"
+
+find documents containing these terms
+
+rank by relevance
+
+⭐ 2. Vector Search (Semantic Search / Embedding Search)
+
+When using embeddings (OpenAI, Ollama, Sentence Transformers), Azure AI Search uses a vector index to perform:
+
+✔ Approximate Nearest Neighbor search (ANN)
+
+Algorithms used:
+
+IVF (Inverted File Index)
+
+HNSW (Hierarchical Navigable Small World)
+
+PQ (Product Quantization)
+
+Flat vector search when not using ANN
+
+✔ What it does:
+
+Converts query into an embedding (vector)
+
+Searches for vectors close to that embedding in the index
+
+Returns semantically similar documents, even if words don’t match
+
+Example:
+
+Query:
+
+"What is the leave policy for new employees?"
+
+
+Even if the document contains:
+
+"Vacation rules for fresh hires"
+
+
+Vector search still matches because meaning is similar.
+
+⭐ 3. Hybrid Search (Full-Text + Vector Together)
+
+Most modern implementations use hybrid search, combining:
+
+✔ Full-Text Search relevance
+
+and
+
+✔ Semantic (Vector) similarity scoring
+
+Azure applies a hybrid ranking function to get the best results:
+
+HybridScore = w1 * BM25_text_score + w2 * vector_similarity_score
+
+
+This gives much better accuracy than either method alone.
+
+⭐ Summary: What Search Happens in Azure AI Search?
+Search Type	Purpose	Index Structures
+Full-Text Search	Find keyword / phrase matches	Inverted Index
+Vector Search	Semantic similarity search	Vector Index (HNSW, IVF, PQ)
+Hybrid Search	Combines both for best ranking	Blend of both
+
+**ANN**
+What Happens in Approximate Nearest Neighbors (ANN) Search?
+
+ANN search finds the vectors closest to a query vector, but NOT by scanning all vectors (which would be slow).
+
+Instead, ANN:
+
+Pre-organizes the vectors using smart indexing techniques
+
+Searches only likely candidate vectors
+
+Returns results that are almost always the true nearest neighbors, but much faster
+
+So ANN trades:
+
+A tiny bit of accuracy → for massive performance gains
+
+⭐ What Happens Internally During ANN Search?
+
+There are three main approaches:
+
+1. Graph-Based ANN (HNSW — Hierarchical Navigable Small World)
+
+(Used by Azure AI Search, Pinecone, Weaviate, Elasticsearch)
+
+✔ How it works:
+
+Builds a multi-layer graph
+
+Each vector is a node
+
+Nodes connect to nearby vectors
+
+Top layer is sparse → fast jumping
+
+Lower layers are dense → precise search
+
+✔ Search Process:
+1. Start at the top layer  
+2. Move greedily to neighbors that are closer  
+3. Go down layers  
+4. Search local neighborhoods  
+5. Return top-k closest vectors  
+
+✔ Advantages:
+
+Fast, accurate, best ANN method today.
+
+2. Clustering-Based ANN (IVF — Inverted File Index)
+
+(Used in FAISS, Azure, ScaNN)
+
+✔ How it works:
+
+Vectors are grouped into centroids (clusters)
+
+Only clusters near the query are searched
+
+✔ Search Steps:
+1. Compute the query vector  
+2. Find N closest centroids  
+3. Search only vectors inside those clusters  
+4. Return closest matches  
+
+✔ Advantage:
+
+Efficient for large datasets (millions of vectors)
+
 This AzureEmployeeSearch class is a well-structured utility for connecting to an Azure AI Search index. Let’s break it down clearly for understanding and improvement opportunities:
 class AzureEmployeeSearch:
     def __init__(self, index_name):
