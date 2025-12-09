@@ -14,7 +14,7 @@ Image similarity
 LLM & RAG systems
 
 
-** cosmso db**
+**cosmso db**
 What is Azure Cosmos DB?
 Azure Cosmos DB is often used together with Azure AI Search because it provides the storage, indexing, and querying backend for applications that require:
 
@@ -305,15 +305,7 @@ There are three main approaches:
 
 ✔ How it works:
 
-Builds a multi-layer graph
-
-Each vector is a node
-
-Nodes connect to nearby vectors
-
-Top layer is sparse → fast jumping
-
-Lower layers are dense → precise search
+Builds a multi-layer graph.Each vector is a node.Nodes connect to nearby vectors.Top layer is sparse → fast jumping. Lower layers are dense → precise search
 
 ✔ Search Process:
 1. Start at the top layer  
