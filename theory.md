@@ -1,5 +1,34 @@
+**ANN**
+Approximate Nearest Neighbors (ANN) refers to an algorithmic approach used to quickly find items that are similar (closest) to a given item, without having to compute the exact distance to every item in the dataset.
+
+It is widely used in:
+
+Vector search
+
+Recommendation systems
+
+Semantic search
+
+Image similarity
+
+LLM & RAG systems
+
+
 ** cosmso db**
 What is Azure Cosmos DB?
+Azure Cosmos DB is often used together with Azure AI Search because it provides the storage, indexing, and querying backend for applications that require:
+
+High-speed vector search (for AI embeddings)
+
+Real-time document ingestion
+
+Low-latency global-scale access
+
+Automatic indexing of structured + unstructured data
+
+Below is a clear explanation of *why Cosmos DB is used with Azure AI Search
+
+
 
 Azure Cosmos DB is Microsoft Azure’s globally distributed, multi-model NoSQL database service.
 It’s designed for high performance, low latency, and massive scalability — all with automatic global distribution.
@@ -270,7 +299,7 @@ A tiny bit of accuracy → for massive performance gains
 
 There are three main approaches:
 
-1. Graph-Based ANN (HNSW — Hierarchical Navigable Small World)
+1. **Graph-Based ANN (HNSW — Hierarchical Navigable Small World)**
 
 (Used by Azure AI Search, Pinecone, Weaviate, Elasticsearch)
 
@@ -297,7 +326,7 @@ Lower layers are dense → precise search
 
 Fast, accurate, best ANN method today.
 
-2. Clustering-Based ANN (IVF — Inverted File Index)
+2. **Clustering-Based ANN (IVF — Inverted File Index)**
 
 (Used in FAISS, Azure, ScaNN)
 
@@ -316,6 +345,7 @@ Only clusters near the query are searched
 ✔ Advantage:
 
 Efficient for large datasets (millions of vectors)
+
 
 This AzureEmployeeSearch class is a well-structured utility for connecting to an Azure AI Search index. Let’s break it down clearly for understanding and improvement opportunities:
 class AzureEmployeeSearch:
